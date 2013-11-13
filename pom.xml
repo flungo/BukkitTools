@@ -8,7 +8,11 @@
     <packaging>jar</packaging>
 
     <name>BukkitTools</name>
-    <url>http://maven.apache.org</url>
+    <url>http://ci.flungo.me/job/Bukkit%20Tools/</url>
+
+    <scm>
+        <url>http://git.flungo.me/git/bukkit/tools.git</url>
+    </scm>
 
     <build>
         <finalName>BukkitTools</finalName>
