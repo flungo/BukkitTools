@@ -10,9 +10,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class Log {
 
-    public final JavaPlugin plugin;
-    public final Logger logger;
-    public final String prefix;
+    private final JavaPlugin plugin;
+    private final Logger logger;
+    private final String prefix;
 
     public Log(JavaPlugin instance) {
         plugin = instance;
