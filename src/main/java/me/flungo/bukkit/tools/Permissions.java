@@ -1,6 +1,5 @@
 package me.flungo.bukkit.tools;
 
-import java.util.logging.Level;
 import net.milkbowl.vault.permission.Permission;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
@@ -29,29 +28,29 @@ public class Permissions {
 
     private void setupOPPermissions() {
         if (plugin.getConfig().getBoolean("permissions.op")) {
-            log.logMessage("Attempting to configure OP permissions");
+            log.info("Attempting to configure OP permissions");
             op = true;
         } else {
-            log.logMessage("OP permissions disabled by config");
+            log.info("OP permissions disabled by config");
             op = false;
         }
     }
 
     private void setupBukkitPermissions() {
         if (plugin.getConfig().getBoolean("permissions.bukkit")) {
-            log.logMessage("Attempting to configure Bukkit Super Permissions");
+            log.info("Attempting to configure Bukkit Super Permissions");
             bukkit = true;
         } else {
-            log.logMessage("Bukkit Super Permissions disabled by config");
+            log.info("Bukkit Super Permissions disabled by config");
             bukkit = false;
         }
     }
 
     private void setupVaultPermissions() {
         if (plugin.getConfig().getBoolean("permissions.vault")) {
-            log.logMessage("Attempting to configure Vault permissions");
+            log.info("Attempting to configure Vault permissions");
             if (plugin.getServer().getPluginManager().getPlugin("Vault") == null) {
-                log.logMessage("Vault could not be found", Level.SEVERE);
+                log.severe("Vault could not be found");
                 vault = false;
             } else {
                 RegisteredServiceProvider<Permission> permissionProvider = plugin.getServer().getServicesManager().getRegistration(net.milkbowl.vault.permission.Permission.class);
@@ -65,7 +64,7 @@ public class Permissions {
                 }
             }
         } else {
-            log.logMessage("Vault permissions disabled by config");
+            log.info("Vault permissions disabled by config");
             vault = false;
         }
     }
@@ -73,26 +72,26 @@ public class Permissions {
     public void setupPermissions(String nodePrefix) {
         setupOPPermissions();
         if (op) {
-            log.logMessage("OP permissions set up");
+            log.info("OP permissions set up");
         } else {
-            log.logMessage("OP permissions not set up", Level.WARNING);
+            log.warning("OP permissions not set up");
         }
         setupBukkitPermissions();
         if (bukkit) {
-            log.logMessage("Bukkit Super Permissions set up");
+            log.info("Bukkit Super Permissions set up");
         } else {
-            log.logMessage("Bukkit Super Permissions not set up", Level.WARNING);
+            log.warning("Bukkit Super Permissions not set up");
         }
         setupVaultPermissions();
         if (vault) {
-            log.logMessage("Vault permissions set up");
+            log.info("Vault permissions set up");
         } else {
-            log.logMessage("Vault permissions not set up", Level.WARNING);
+            log.logMessage("Vault permissions not set up");
         }
         if (!vault && !bukkit) {
-            log.logMessage("No permission systems have been set up. Default permissions will be used.", Level.WARNING);
+            log.warning("No permission systems have been set up. Default permissions will be used.");
             if (!op) {
-                log.logMessage("Additionally, OP permissions disabled.", Level.WARNING);
+                log.warning("Additionally, OP permissions disabled.");
             }
         }
     }
