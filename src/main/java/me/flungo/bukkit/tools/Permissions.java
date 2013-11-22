@@ -1,6 +1,7 @@
 package me.flungo.bukkit.tools;
 
 import net.milkbowl.vault.permission.Permission;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -101,7 +102,11 @@ public class Permissions {
         setupPermissions(nodePrefix);
     }
 
-    private boolean hasNode(Player p, String node) {
+    private boolean hasNode(CommandSender cs, String node) {
+        if (!(cs instanceof Player)) {
+            return true;
+        }
+        Player p = (Player) cs;
         if (bukkit && p.hasPermission(node)) {
             return true;
         }
@@ -111,7 +116,11 @@ public class Permissions {
         return false;
     }
 
-    public boolean hasPermission(Player p, String permission) {
+    public boolean hasPermission(CommandSender cs, String permission) {
+        if (!(cs instanceof Player)) {
+            return true;
+        }
+        Player p = (Player) cs;
         if (plugin.getConfig().getBoolean("permissions.default." + permission)) {
             return true;
         }
@@ -119,7 +128,11 @@ public class Permissions {
         return hasNode(p, node);
     }
 
-    public boolean isAdmin(Player p) {
+    public boolean isAdmin(CommandSender cs) {
+        if (!(cs instanceof Player)) {
+            return true;
+        }
+        Player p = (Player) cs;
         if (p.isOp() && op) {
             return true;
         }
@@ -127,7 +140,11 @@ public class Permissions {
         return hasNode(p, node);
     }
 
-    public boolean isUser(Player p) {
+    public boolean isUser(CommandSender cs) {
+        if (!(cs instanceof Player)) {
+            return true;
+        }
+        Player p = (Player) cs;
         if (!plugin.getConfig().getBoolean("enable")) {
             return false;
         }
