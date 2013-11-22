@@ -12,11 +12,16 @@ public class Permissions {
 
     private final Log log;
 
-    private String prefix;
+    private final String prefix;
 
     public Permissions(JavaPlugin instance, Log logger) {
-        plugin = instance;
-        log = logger;
+        this(instance, logger, instance.getName().toLowerCase().replaceAll("\\s+", ""));
+    }
+
+    public Permissions(JavaPlugin instance, Log logger, String prefix) {
+        this.plugin = instance;
+        this.log = logger;
+        this.prefix = plugin.getName().toLowerCase().replaceAll("\\s+", "");
     }
 
     private static boolean op;
@@ -87,7 +92,7 @@ public class Permissions {
         if (vault) {
             log.info("Vault permissions set up");
         } else {
-            log.logMessage("Vault permissions not set up");
+            log.warning("Vault permissions not set up");
         }
         if (!vault && !bukkit) {
             log.warning("No permission systems have been set up. Default permissions will be used.");
