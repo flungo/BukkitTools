@@ -116,10 +116,7 @@ public class Permissions {
             return true;
         }
         String node = prefix + "." + permission;
-        if (hasNode(p, node)) {
-            return true;
-        }
-        return false;
+        return hasNode(p, node);
     }
 
     public boolean isAdmin(Player p) {
@@ -127,10 +124,7 @@ public class Permissions {
             return true;
         }
         String node = "voidwarp.admin";
-        if (hasNode(p, node)) {
-            return true;
-        }
-        return false;
+        return hasNode(p, node);
     }
 
     public boolean isUser(Player p) {
