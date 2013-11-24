@@ -20,6 +20,7 @@ public class Permissions {
 		this.plugin = instance;
 		this.log = logger;
 		this.prefix = plugin.getName().toLowerCase().replaceAll("\\s+", "");
+		setupPermissions();
 	}
 	private static boolean op;
 	private static boolean bukkit;
@@ -69,7 +70,7 @@ public class Permissions {
 		}
 	}
 
-	public void setupPermissions(String nodePrefix) {
+	private void setupPermissions() {
 		setupOPPermissions();
 		if (op) {
 			log.info("OP permissions set up");
@@ -96,15 +97,10 @@ public class Permissions {
 		}
 	}
 
-	public void setupPermissions() {
-		String nodePrefix = plugin.getDescription().getClass().toString().toLowerCase();
-		setupPermissions(nodePrefix);
-	}
-
 	private boolean hasNode(CommandSender cs, String node) {
-		if (!(cs instanceof Player)) {
-			return true;
-		}
+		/*if (!(cs instanceof Player)) {
+		 return true;
+		 }*/
 		Player p = (Player) cs;
 		if (bukkit && p.hasPermission(node)) {
 			return true;
