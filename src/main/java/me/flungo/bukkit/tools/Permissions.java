@@ -1,5 +1,6 @@
 package me.flungo.bukkit.tools;
 
+import java.util.logging.Logger;
 import net.milkbowl.vault.permission.Permission;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -9,19 +10,20 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class Permissions {
 
     private final JavaPlugin plugin;
-    private final Log log;
     private final String prefix;
+    private final Logger log;
 
-    public Permissions(JavaPlugin instance, Log logger) {
-        this(instance, logger, instance.getName().toLowerCase().replaceAll("\\s+", ""));
+    public Permissions(JavaPlugin instance) {
+        this(instance, instance.getName().toLowerCase().replaceAll("\\s+", ""));
     }
 
-    public Permissions(JavaPlugin instance, Log logger, String prefix) {
+    public Permissions(JavaPlugin instance, String prefix) {
         this.plugin = instance;
-        this.log = logger;
-        this.prefix = plugin.getName().toLowerCase().replaceAll("\\s+", "");
+        this.prefix = prefix;
+        this.log = plugin.getLogger();
         setupPermissions();
     }
+
     private static boolean op;
     private static boolean bukkit;
     private static boolean vault;
