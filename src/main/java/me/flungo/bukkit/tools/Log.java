@@ -8,6 +8,7 @@ import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 import org.bukkit.plugin.java.JavaPlugin;
 
+@Deprecated
 public class Log {
 
     private final JavaPlugin plugin;
