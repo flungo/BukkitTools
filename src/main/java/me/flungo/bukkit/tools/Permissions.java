@@ -1,7 +1,6 @@
 package me.flungo.bukkit.tools;
 
 import java.util.logging.Level;
-import java.util.logging.Logger;
 import net.milkbowl.vault.permission.Permission;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
@@ -13,7 +12,6 @@ public class Permissions {
 
     private final JavaPlugin plugin;
     private final String prefix;
-    private final Logger log;
 
     public Permissions(JavaPlugin instance) {
         this(instance, instance.getName().toLowerCase().replaceAll("\\s+", ""));
@@ -22,7 +20,6 @@ public class Permissions {
     public Permissions(JavaPlugin instance, String prefix) {
         this.plugin = instance;
         this.prefix = prefix;
-        this.log = plugin.getLogger();
         setupPermissions();
     }
 
@@ -33,10 +30,10 @@ public class Permissions {
 
     private boolean setupOPPermissions() {
         if (getConfig().getBoolean("op")) {
-            log.info("Attempting to configure OP permissions");
+            plugin.getLogger().info("Attempting to configure OP permissions");
             op = true;
         } else {
-            log.info("OP permissions disabled by config");
+            plugin.getLogger().info("OP permissions disabled by config");
             op = false;
         }
         return true;
@@ -44,10 +41,10 @@ public class Permissions {
 
     private boolean setupBukkitPermissions() {
         if (getConfig().getBoolean("bukkit")) {
-            log.info("Attempting to configure Bukkit Super Permissions");
+            plugin.getLogger().info("Attempting to configure Bukkit Super Permissions");
             bukkit = true;
         } else {
-            log.info("Bukkit Super Permissions disabled by config");
+            plugin.getLogger().info("Bukkit Super Permissions disabled by config");
             bukkit = false;
         }
         return true;
@@ -55,9 +52,9 @@ public class Permissions {
 
     private boolean setupVaultPermissions() {
         if (getConfig().getBoolean("vault")) {
-            log.info("Attempting to configure Vault permissions");
+            plugin.getLogger().info("Attempting to configure Vault permissions");
             if (plugin.getServer().getPluginManager().getPlugin("Vault") == null) {
-                log.severe("Vault could not be found");
+                plugin.getLogger().severe("Vault could not be found");
                 vault = false;
                 return false;
             } else {
@@ -73,7 +70,7 @@ public class Permissions {
                 }
             }
         } else {
-            log.info("Vault permissions disabled by config");
+            plugin.getLogger().info("Vault permissions disabled by config");
             vault = false;
         }
         return true;
@@ -81,24 +78,24 @@ public class Permissions {
 
     private void setupPermissions() {
         if (setupOPPermissions()) {
-            log.info("Set up OP permissions");
+            plugin.getLogger().info("Set up OP permissions");
         } else {
-            log.warning("Failed to set up OP permissions");
+            plugin.getLogger().warning("Failed to set up OP permissions");
         }
         if (setupBukkitPermissions()) {
-            log.info("Set up Bukkit Super Permissions");
+            plugin.getLogger().info("Set up Bukkit Super Permissions");
         } else {
-            log.warning("Failed to set up Bukkit Super Permissions");
+            plugin.getLogger().warning("Failed to set up Bukkit Super Permissions");
         }
         if (setupVaultPermissions()) {
-            log.info("Set up Vault permissions");
+            plugin.getLogger().info("Set up Vault permissions");
         } else {
-            log.warning("Failed to set up Vault permissions");
+            plugin.getLogger().warning("Failed to set up Vault permissions");
         }
         if (!vault && !bukkit) {
-            log.info("No permission systems have been set up. Default permissions will be used.");
+            plugin.getLogger().info("No permission systems have been set up. Default permissions will be used.");
             if (!op) {
-                log.warning("Additionally, OP permissions disabled.");
+                plugin.getLogger().warning("Additionally, OP permissions disabled.");
             }
         }
     }
