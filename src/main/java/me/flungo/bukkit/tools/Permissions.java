@@ -169,15 +169,11 @@ public class Permissions {
             debug(cs.getName() + " isn't a player (probably console) - permission granted.");
             return true;
         }
-        Player p = (Player) cs;
-        if (!plugin.getConfig().getBoolean("enable")) {
-            return false;
-        }
         String node = prefix + ".user";
-        if (hasNode(p, node)) {
+        if (hasNode(cs, node)) {
             return true;
         }
-        if (isAdmin(p)) {
+        if (isAdmin(cs)) {
             return true;
         }
         if (!bukkit && !vault) {
