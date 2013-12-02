@@ -122,11 +122,11 @@ public class Permissions {
             return true;
         }
         if (bukkit && p.hasPermission(node)) {
-            debug("Bukkit permissions enabled and " + cs.getName() + " is has node - permission granted.");
+            debug("Bukkit permissions enabled and " + cs.getName() + " has node - permission granted.");
             return true;
         }
         if (vault && vaultPermission.has(p, node)) {
-            debug("Vault permissions enabled and " + cs.getName() + " is has node - permission granted.");
+            debug("Vault permissions enabled and " + cs.getName() + " has node - permission granted.");
             return true;
         }
         debug("No permissions matched for " + cs.getName() + " - permission denied.");
