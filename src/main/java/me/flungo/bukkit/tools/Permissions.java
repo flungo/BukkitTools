@@ -101,7 +101,11 @@ public class Permissions {
 	}
 
 	private ConfigurationSection getConfig() {
-		return plugin.getConfig().getConfigurationSection("permissions");
+		if (plugin.getConfig().contains("permissions")) {
+			return plugin.getConfig().getConfigurationSection("permissions");
+		} else {
+			return plugin.getConfig().createSection("permissions");
+		}
 	}
 
 	private void debug(String message) {
