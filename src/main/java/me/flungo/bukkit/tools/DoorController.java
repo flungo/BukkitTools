@@ -21,7 +21,7 @@ public class DoorController {
 	private final Door botDoor;
 
 	public DoorController(Block door) throws IllegalArgumentException {
-		if (!(door.getState() instanceof Door)) {
+		if (!(door.getState().getData() instanceof Door)) {
 			throw new IllegalArgumentException("Block must represent a door.");
 		}
 		if (door.getRelative(BlockFace.UP).getType().equals(door.getType())) {
@@ -33,8 +33,8 @@ public class DoorController {
 		} else {
 			throw new IllegalArgumentException("Door doesn't seem to be a full door?");
 		}
-		topDoor = (Door) topBlock.getState();
-		botDoor = (Door) botBlock.getState();
+		topDoor = (Door) topBlock.getState().getData();
+		botDoor = (Door) botBlock.getState().getData();
 	}
 
 	public boolean isOpen() {
