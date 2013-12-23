@@ -43,10 +43,12 @@ public class DoorController {
 
 	public void setOpen(boolean isOpen) {
 		botDoor.setOpen(isOpen);
+		botBlock.setData(botDoor.getData());
 	}
 
 	public void setFacingDirection(BlockFace face) {
 		botDoor.setFacingDirection(face);
+		botBlock.setData(botDoor.getData());
 	}
 
 	public BlockFace getFacing() {
