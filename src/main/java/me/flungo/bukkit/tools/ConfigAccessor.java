@@ -39,92 +39,104 @@ import org.bukkit.plugin.java.JavaPlugin;
  */
 public class ConfigAccessor {
 
-    private final String fileName;
-    private final JavaPlugin plugin;
-    private File configFile;
-    private FileConfiguration fileConfiguration;
+	private final String fileName;
+	private final JavaPlugin plugin;
+	private File configFile;
+	private FileConfiguration fileConfiguration;
 
-    /**
-     * Create a <code>ConfigAccessor</code> which will allow you to access the
-     * configuration for the specified fileName as you would with a default
-     * plugin config.yml through the ConfigAccessor.
-     *
-     * Creates an accessor for a configuration file stored in the
-     * <code>plugin</code>'s configuration folder at the path specified by the
-     * <code>fileName</code> where the default file for that configuration, is
-     * stored in the same path under the root of the plugin jar.
-     *
-     * @param plugin the plugin where the which the ConfigAccessor is acting for
-     * @param fileName the name of the file that the configAccessor will allow
-     * access to.
-     */
-    public ConfigAccessor(JavaPlugin plugin, String fileName) {
-        if (plugin == null) {
-            throw new IllegalArgumentException("plugin cannot be null");
-        }
-        if (!plugin.isInitialized()) {
-            throw new IllegalArgumentException("plugin must be initiaized");
-        }
-        this.plugin = plugin;
-        this.fileName = fileName;
-        File dataFolder = plugin.getDataFolder();
-        if (dataFolder == null) {
-            throw new IllegalStateException();
-        }
-        this.configFile = new File(plugin.getDataFolder(), fileName);
-    }
+	/**
+	 * Create a <code>ConfigAccessor</code> which will allow you to access the
+	 * configuration for the specified fileName as you would with a default
+	 * plugin config.yml through the ConfigAccessor.
+	 *
+	 * Creates an accessor for a configuration file stored in the
+	 * <code>plugin</code>'s configuration folder at the path specified by the
+	 * <code>fileName</code> where the default file for that configuration, is
+	 * stored in the same path under the root of the plugin jar.
+	 *
+	 * @param plugin the plugin where the which the ConfigAccessor is acting for
+	 * @param fileName the name of the file that the configAccessor will allow
+	 * access to.
+	 */
+	public ConfigAccessor(JavaPlugin plugin, String fileName) {
+		if (plugin == null) {
+			throw new IllegalArgumentException("plugin cannot be null");
+		}
+		if (!plugin.isInitialized()) {
+			throw new IllegalArgumentException("plugin must be initiaized");
+		}
+		this.plugin = plugin;
+		this.fileName = fileName;
+		File dataFolder = plugin.getDataFolder();
+		if (dataFolder == null) {
+			throw new IllegalStateException();
+		}
+		this.configFile = new File(plugin.getDataFolder(), fileName);
+	}
 
-    /**
-     * Reloads the configuration represented by this accessor from the hard
-     * disk.
-     */
-    public void reloadConfig() {
-        fileConfiguration = YamlConfiguration.loadConfiguration(configFile);
+	public ConfigAccessor(JavaPlugin plugin, File file) {
+		if (plugin == null) {
+			throw new IllegalArgumentException("plugin cannot be null");
+		}
+		if (!plugin.isInitialized()) {
+			throw new IllegalArgumentException("plugin must be initiaized");
+		}
+		this.plugin = plugin;
+		this.fileName = file.getName();
+		this.configFile = file;
+	}
 
-        // Look for defaults in the jar
-        InputStream defConfigStream = plugin.getResource(fileName);
-        if (defConfigStream != null) {
-            YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
-            fileConfiguration.setDefaults(defConfig);
-        }
-    }
+	/**
+	 * Reloads the configuration represented by this accessor from the hard
+	 * disk.
+	 */
+	public void reloadConfig() {
+		fileConfiguration = YamlConfiguration.loadConfiguration(configFile);
 
-    /**
-     * Gets the configuration file represented by this accessor.
-     *
-     * @return FileConfiguration for the configuration file represented by this
-     * accessor.
-     */
-    public FileConfiguration getConfig() {
-        if (fileConfiguration == null) {
-            this.reloadConfig();
-        }
-        return fileConfiguration;
-    }
+		// Look for defaults in the jar
+		InputStream defConfigStream = plugin.getResource(fileName);
+		if (defConfigStream != null) {
+			YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
+			fileConfiguration.setDefaults(defConfig);
+		}
+	}
 
-    /**
-     * Saves the configuration represented by this accessor which is currently
-     * stored in memory to the hard disk.
-     */
-    public void saveConfig() {
-        if (fileConfiguration == null || configFile == null) {
-            return;
-        } else {
-            try {
-                getConfig().save(configFile);
-            } catch (IOException ex) {
-                plugin.getLogger().log(Level.SEVERE, "Could not save config to " + configFile, ex);
-            }
-        }
-    }
+	/**
+	 * Gets the configuration file represented by this accessor.
+	 *
+	 * @return FileConfiguration for the configuration file represented by this
+	 * accessor.
+	 */
+	public FileConfiguration getConfig() {
+		if (fileConfiguration == null) {
+			this.reloadConfig();
+		}
+		return fileConfiguration;
+	}
 
-    /**
-     * If the configuration file does not exist on the hard disk, saves the
-     * default configuration file to the hard disk.
-     */
-    public void saveDefaultConfig() {
-        if (!configFile.exists()) {
-            this.plugin.saveResource(fileName, false);
-        }
-    }
+	/**
+	 * Saves the configuration represented by this accessor which is currently
+	 * stored in memory to the hard disk.
+	 */
+	public void saveConfig() {
+		if (fileConfiguration == null || configFile == null) {
+			return;
+		} else {
+			try {
+				getConfig().save(configFile);
+			} catch (IOException ex) {
+				plugin.getLogger().log(Level.SEVERE, "Could not save config to " + configFile, ex);
+			}
+		}
+	}
+
+	/**
+	 * If the configuration file does not exist on the hard disk, saves the
+	 * default configuration file to the hard disk.
+	 */
+	public void saveDefaultConfig() {
+		if (!configFile.exists()) {
+			this.plugin.saveResource(fileName, false);
+		}
+	}
 }
