@@ -15,7 +15,7 @@ import org.bukkit.plugin.Plugin;
  */
 public abstract class MySQLDatabase {
 
-	protected final Plugin plugin;
+	private final Plugin plugin;
 	private final String username;
 	private final String password;
 	private final String host;
