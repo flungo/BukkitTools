@@ -34,21 +34,17 @@ public abstract class MySQLDatabase {
 		this.database = dbCS.getString("database");
 	}
 
-	public Connection getConnection() {
+	public Connection getConnection() throws SQLException {
 		if (conn == null) {
 			conn = initialize();
 		}
-		try {
-			if (!conn.isValid(10)) {
-				conn = initialize();
-			}
-		} catch (SQLException ex) {
-			plugin.getLogger().log(Level.SEVERE, "Failed to check SQL status", ex);
+		if (!conn.isValid(10)) {
+			conn = initialize();
 		}
 		return conn;
 	}
 
-	private Connection initialize() {
+	private Connection initialize() throws SQLException {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			conn = DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/" + database, username, password);
@@ -56,9 +52,9 @@ public abstract class MySQLDatabase {
 
 			createTable();
 		} catch (ClassNotFoundException ex) {
-			plugin.getLogger().log(Level.SEVERE, "You need the MySQL library!", ex);
+			throw new SQLException("You need the MySQL library!", ex);
 		} catch (SQLException ex) {
-			plugin.getLogger().log(Level.SEVERE, "SQL exception on initialize", ex);
+			throw new SQLException("SQL exception on initialize", ex);
 		}
 
 		return conn;
